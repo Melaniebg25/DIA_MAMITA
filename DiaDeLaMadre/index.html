@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Mamá con Amor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #section1 {
+            opacity: 1;
+            z-index: 3;
+        }
+
+        #section2 {
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        #section3 {
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .garden {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        .flowers {
+            position: relative;
+            width: 300px;
+            height: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flower-group {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .flower {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            position: relative;
+        }
+
+        .stem {
+            width: 8px;
+            height: 120px;
+            background-color: #4CAF50;
+            margin-top: -10px;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            border-radius: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bloom {
+            width: 40px;
+            height: 40px;
+            background-color: #9b59b6;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.8);
+            position: relative;
+            z-index: 5;
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #9b59b6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+        }
+
+        .petal:nth-child(1) { top: -10px; left: 10px; }
+        .petal:nth-child(2) { top: 10px; left: -10px; }
+        .petal:nth-child(3) { top: 10px; right: -10px; }
+        .petal:nth-child(4) { bottom: -10px; left: 10px; }
+
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #FFC107;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+            z-index: 6;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background-color: #4CAF50;
+            opacity: 0.9;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 2;
+            bottom: 40px;
+        }
+
+        .left-leaf {
+            transform: rotate(-30deg);
+            left: -15px;
+        }
+
+        .right-leaf {
+            transform: rotate(30deg);
+            right: -15px;
+        }
+
+        .grass {
+            position: absolute;
+            width: 8px;
+            height: 70px;
+            background-color: #4CAF50;
+            border-radius: 4px;
+            bottom: 0;
+            z-index: 1;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        .glow-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white, 0 0 20px white;
+            opacity: 0;
+            animation: float-up 4s infinite ease-out;
+        }
+
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(0); }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { opacity: 0; transform: translateY(-100px); }
+        }
+
+        .button-next {
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 0 15px rgba(142, 68, 173, 0.6);
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(142, 68, 173, 0.8);
+            background-color: #9b59b6;
+        }
+
+        .envelope {
+            width: 200px;
+            height: 120px;
+            background-color: #9b59b6;
+            position: relative;
+            margin: 50px auto;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.6);
+            border: 2px solid #8e44ad;
+        }
+
+        .envelope:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(155, 89, 182, 0.8);
+        }
+
+        .envelope .front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #9b59b6;
+            z-index: 2;
+            transform-origin: bottom;
+            transition: transform 0.5s ease-in-out 0.5s;
+            border-radius: 5px;
+        }
+
+        .envelope.open .front {
+            transform: rotateX(180deg);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .envelope .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #8e44ad;
+            border-radius: 5px;
+        }
+
+        .letter {
+            position: absolute;
+            width: 180px;
+            height: 200px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(142, 68, 173, 0.4);
+            padding: 15px;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #000000;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%) scale(0.8);
+            border: 1px solid #d2b4de;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .letter p {
+            margin: 8px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .letter p:first-child {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .envelope.open .letter {
+            transform: translate(-50%, -100%) scale(1);
+            opacity: 1;
+            transition: all 0.8s ease-in-out 0.3s;
+            box-shadow: 0 0 30px rgba(240, 236, 241, 0.7);
+        }
+
+        .photo-container {
+            width: 300px;
+            height: 300px;
+            border: 10px solid #fff;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.7);
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-5deg);
+            transition: all 0.5s ease;
+            outline: 2px solid #ff69b4;
+            outline-offset: -10px;
+        }
+
+        .photo-container:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 0 40px rgba(245, 244, 245, 0.9);
+        }
+
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message {
+            font-size: 28px;
+            color: #ff1493;
+            text-align: center;
+            margin: 30px 20px;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #ff1493;
+            transform: rotate(45deg);
+            opacity: 0;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background-color: #ff1493;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+        }
+
+        .heart:before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: -15px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="section" id="section1">
+        <div class="garden" id="garden">
+            <div class="flowers">
+                <div class="flower-group">
+                    <!-- Flor central -->
+                    <div class="flower">
+                        <div class="stem"></div>
+                        <div class="bloom">
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="center"></div>
+                        </div>
+                        <div class="leaf left-leaf"></div>
+                        <div class="leaf right-leaf"></div>
+                    </div>
+                        
+                        <!-- Flor izquierda -->
+                        <div class="flower" style="margin-top: 15px;">
+                            <div class="stem"></div>
+                            <div class="bloom">
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="center"></div>
+                            </div>
+                            <div class="leaf left-leaf"></div>
+                            <div class="leaf right-leaf"></div>
+                        </div>
+                        
+                        <!-- Flor derecha -->
+                        <div class="flower" style="margin-top: 5px;">
+                            <div class="stem"></div>
+                            <div class="bloom">
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="petal"></div>
+                                <div class="center"></div>
+                            </div>
+                            <div class="leaf left-leaf"></div>
+                            <div class="leaf right-leaf"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Puntos brillantes -->
+                    <div class="glow-dot" style="top: 20%; left: 45%;"></div>
+            </div>
+            <button class="button-next" onclick="showSection(2)">Siguiente</button>
+        </div>
+    </div>
+                
+                <!-- Tallos de pasto adicionales -->
+                <div class="grass" style="left: 30%; height: 60px;"></div>
+                <div class="grass" style="left: 70%; height: 50px;"></div>
+                <div class="grass" style="left: 20%; height: 65px;"></div>
+                <div class="grass" style="left: 80%; height: 55px;"></div>
+                <div class="grass" style="left: 90%; height: 70px;"></div>
+                <div class="grass" style="left: 10%; height: 40px;"></div>
+                
+                <!-- Puntos brillantes -->
+                <div class="glow-dot" style="top: 20%; left: 45%;"></div>
+                <div class="glow-dot" style="top: 25%; left: 55%;"></div>
+                <div class="glow-dot" style="top: 30%; left: 50%;"></div>
+                <div class="glow-dot" style="top: 15%; left: 60%;"></div>
+                <div class="glow-dot" style="top: 35%; left: 40%;"></div>
+            </div>
+
+
+    <div class="section" id="section2">
+        <div class="message">Para mi mamá con mucho amor</div>
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="back"></div>
+            <div class="letter">
+                <p>FELIZ DIA</p>
+                <p>MAMI ROXANA</p>
+                <p>TE AMO MUCHO❤️</p>
+                <p>GRACIAS POR TODO EL APOYO QUE SIEMPRE ME DAS</p>
+            </div>
+            <div class="front"></div>
+        </div>
+        <button class="button-next" id="btnSection2" style="opacity: 0; pointer-events: none;" onclick="showSection(3)">Siguiente</button>
+    </div>
+
+    <div class="section" id="section3">
+        <div class="message">Los mejores momentos juntas</div>
+        <div class="photo-container">
+            <img src="roxana.jpeg" alt="Foto de mamá y yo" class="photo">
+        </div>
+        <div class="message">¡Te amo mamá!</div>
+    </div>
+
+    <script>
+        // Añadir efectos de resplandor a las flores
+        function addGlowEffects() {
+            const glowDots = document.querySelectorAll('.glow-dot');
+            glowDots.forEach((dot, index) => {
+                // Animación con posición y tiempo aleatorio
+                dot.style.animationDelay = (Math.random() * 4) + 's';
+                dot.style.animationDuration = (4 + Math.random() * 4) + 's';
+            });
+        }
+
+        // Cambiar entre secciones
+        function showSection(num) {
+            for (let i = 1; i <= 3; i++) {
+                const section = document.getElementById('section' + i);
+                if (i === num) {
+                    section.style.opacity = '1';
+                    section.style.pointerEvents = 'auto';
+                } else {
+                    section.style.opacity = '0';
+                    section.style.pointerEvents = 'none';
+                }
+            }
+            
+            if (num === 3) {
+                createHearts();
+            }
+        }
+
+        // Abrir el sobre
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.toggle('open');
+            
+            // Mostrar el botón siguiente después de abrir el sobre
+            setTimeout(() => {
+                document.getElementById('btnSection2').style.opacity = '1';
+                document.getElementById('btnSection2').style.pointerEvents = 'auto';
+            }, 1000);
+        }
+
+        // Crear corazones flotantes
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            
+            // Limpiar corazones anteriores
+            heartsContainer.innerHTML = '';
+            
+            const numHearts = 30;
+            
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                
+                // Posición aleatoria en la pantalla
+                const x = Math.random() * 100;
+                heart.style.left = x + '%';
+                heart.style.bottom = '-30px';
+                
+                // Animación con retraso aleatorio
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 10;
+                heart.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                // Tamaño aleatorio
+                const size = 10 + Math.random() * 30;
+                heart.style.width = size + 'px';
+                heart.style.height = size + 'px';
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Inicializar la página
+        window.onload = function() {
+            addGlowEffects();
+            
+            // Hacer que las flores aparezcan gradualmente
+            const flowers = document.querySelectorAll('.flower');
+            flowers.forEach((flower, index) => {
+                setTimeout(() => {
+                    flower.style.opacity = '1';
+                }, index * 300);
+            });
+            
+            // Añadir más partículas luminosas con el tiempo
+            setInterval(() => {
+                const garden = document.querySelector('.flowers');
+                const dot = document.createElement('div');
+                dot.className = 'glow-dot';
+                dot.style.top = Math.random() * 70 + '%';
+                dot.style.left = Math.random() * 80 + 10 + '%';
+                dot.style.animationDelay = '0s';
+                garden.appendChild(dot);
+                
+                // Eliminar después de la animación para evitar sobrecarga
+                setTimeout(() => {
+                    dot.remove();
+                }, 4000);
+            }, 2000);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background-color: #ffeef2;
+  margin: 0;
+  padding: 0;
+}
+
+.flowers {
+  margin-top: 40px;
+}
+
+.flower {
+  width: 150px;
+  margin: 10px;
+  display: inline-block;
+}
+
+.card-container {
+  display: none;
+  margin: 30px auto;
+}
+
+.card-image {
+  position: relative;
+  display: inline-block;
+}
+
+.message {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  color: #b10000;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn {
+  margin-top: 20px;
+  background-color: #00e5a1;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #00b884;
+}
+
+.photo {
+  display: none;
+  margin-top: 30px;
+}
+
+.photo img {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
